@@ -26,9 +26,5 @@ jobs:
         id: run_script
         run: |
           echo "Input from Supabase: ${{ github.event.inputs.data }}"
-          # Capture the output of your Python script
           result=$(python run_script.py)
-          # Log it for GitHub Actions
-          echo "Python Output: $result"
-          # Expose it as an output for API access
           echo "result=$result" >> $GITHUB_OUTPUT
