@@ -12,7 +12,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     outputs:
-      script_output: ${{ steps.run_script.outputs.result }}
+      script_output: ${{ steps.run_python.outputs.script_output }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -23,8 +23,9 @@ jobs:
           python-version: "3.11"
 
       - name: Run script
-        id: run_script
+        id: run_python
         run: |
-          echo "Input from Supabase: ${{ github.event.inputs.data }}"
-          result=$(python run_script.py)
-          echo "result=$result" >> $GITHUB_OUTPUT
+          echo "Running script with input: ${{ github.event.inputs.data }}"
+          output=$(python run_script.py)
+          echo "Script output: $output"
+          echo "script_output=$output" >> $GITHUB_OUTPUT
