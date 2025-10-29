@@ -11,8 +11,6 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
-    outputs:
-      script_output: ${{ steps.run_python.outputs.script_output }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -23,9 +21,13 @@ jobs:
           python-version: "3.11"
 
       - name: Run script
-        id: run_python
         run: |
           echo "Running script with input: ${{ github.event.inputs.data }}"
-          output=$(python run_script.py)
-          echo "Script output: $output"
-          echo "script_output=$output" >> $GITHUB_OUTPUT
+          python run_script.py > output.json
+          echo "Python script executed."
+
+      - name: Upload output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: script_output
+          path: output.json
