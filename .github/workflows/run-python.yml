@@ -25,6 +25,8 @@ jobs:
           echo "Running script with input: ${{ github.event.inputs.data }}"
           python run_script.py > output.json
           echo "Python script executed."
+          echo "Output file content:"
+          cat output.json
 
       - name: Upload output as artifact
         uses: actions/upload-artifact@v4

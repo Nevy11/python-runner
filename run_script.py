@@ -1,8 +1,16 @@
-# run_script.py
+# # run_script.py
+# import json
+
+# def main():
+#     print(json.dumps({"message": "Hello from GitHub!"}))
+
+# if __name__ == "__main__":
+#     main()
 import json
 
-def main():
-    print(json.dumps({"message": "Hello from GitHub!"}))
+data = {"message": "Hello from Python!", "status": "success"}
 
-if __name__ == "__main__":
-    main()
+with open("output.json", "w") as f:
+    json.dump(data, f)
+
+print("Done writing output.json")
