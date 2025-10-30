@@ -20,13 +20,27 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Run script
+      - name: Run Python script
         run: |
           echo "Running script with input: ${{ github.event.inputs.data }}"
-          python run_script.py > output.json
+          # Write input to a file (optional, if your script needs it)
+          echo '${{ github.event.inputs.data }}' > input.json
+
+          # Run your main script
+          python run_script.py input.json > output.json || echo '{"error": "script failed"}' > output.json
+
           echo "Python script executed."
           echo "Output file content:"
           cat output.json
+
+      - name: Ensure output file exists
+        run: |
+          if [ ! -f output.json ]; then
+            echo '{"error": "output.json not created"}' > output.json
+          fi
+
+      - name: Wait before uploading artifact
+        run: sleep 5
 
       - name: Upload output as artifact
         uses: actions/upload-artifact@v4
