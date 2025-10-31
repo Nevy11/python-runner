@@ -22,15 +22,16 @@ jobs:
 
       - name: Run Python script
         run: |
-          echo "Running script with input: ${{ github.event.inputs.data }}"
-          # Write input to a file (optional, if your script needs it)
+          echo 'Running script with input: ${{ github.event.inputs.data }}'
+
+          # Write input JSON safely to file
           echo '${{ github.event.inputs.data }}' > input.json
 
-          # Run your main script
-          python run_script.py input.json > output.json || echo '{"error": "script failed"}' > output.json
+          # Run script with input and capture output safely
+          python run_script.py input.json > output.json 2>&1 || echo '{"error": "script failed"}' > output.json
 
-          echo "Python script executed."
-          echo "Output file content:"
+          echo 'Python script executed.'
+          echo 'Output file content:'
           cat output.json
 
       - name: Ensure output file exists
